@@ -1,0 +1,62 @@
+{% extends "App_all/base.html" %}
+{% block title %}
+    Home
+{% endblock title %}
+
+{% block main %}
+{% load static %}
+<style>
+    #carouselExampleIndicators {
+        margin-top: -125px;
+    }
+
+    .carousel-item img {
+        width: 100%;
+        height: 700px;
+    }
+</style>
+<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="{% static 'images/hero_bg_1.jpg' %}" class="d-block w-100" alt="Background 1">
+        <div class="carousel-caption d-none d-md-block">
+        <h5>Easiest way to find your dream home</h5>
+        <p>Predict the Family expresses from our side to choose the area of Dhaka.</p>
+      </div>
+    </div>
+      <div class="carousel-item">
+        <img src="{% static 'images/hero_bg_2.jpg' %}" class="d-block w-100" alt="Background 2">
+        <div class="carousel-caption d-none d-md-block">
+        <h5>Easiest way to find your dream home</h5>
+        <p>Predict the Family expresses from our side to choose the area of Dhaka.</p>
+      </div>
+    </div>
+      <div class="carousel-item">
+        <img src="{% static 'images/hero_bg_3.jpg' %}" class="d-block w-100" alt="Background 3">
+        <div class="carousel-caption d-none d-md-block">
+        <h5>Easiest way to find your dream home</h5>
+        <p>Predict the Family expresses from our side to choose the area of Dhaka.</p>
+      </div>
+    </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+{% endblock %}
+{% block activity_script %}
+    home.classList.add('active');
+    features.classList.remove('active');
+    contact.classList.remove('active');
+{% endblock %}
+

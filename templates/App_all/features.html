@@ -1,0 +1,274 @@
+{% extends "App_all/base.html" %}
+{% block title %}
+    Features
+{% endblock title %}
+{% block main %}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="This website is trying to make a prediction about the family costing of different areas in Dhaka.">
+<meta name="author" content="">
+<link rel="icon" href="../../../../favicon.ico">
+<!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<title>Family Cost Prediction</title>
+    <style>
+
+        .all-features .title-container, .form-container {
+            background: #000;
+            opacity: 0.8;
+            border-radius: 10px;
+            padding: 10px;
+        }
+
+        .form-container label {
+            color: #ffffff;
+        }
+
+        .title-container h1, p {
+            color: #fffffff !important;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-weight: bold;
+        }
+
+        #id-location-table {
+            display: none;
+        }
+
+        #id-location-table tbody tr td:hover {
+            cursor: pointer;
+        }
+
+        label {
+            display: inline-flex;
+        }
+
+        label input {
+            margin: 0 15px 0 5px;
+        }
+
+        .location-input-container {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px 0;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        table tr td {
+            color: green !important;
+        }
+
+        .total-adult-container {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px 0;
+        }
+
+        .person-details-container {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px 0;
+        }
+
+        .title {
+            text-align: center;
+        }
+    </style>
+    <div class="all-features">
+        <div class="container mt-3 mb-5">
+            <div class="row title-container">
+                <div class="col-md-12 title">
+                    <h1 style="color: white">Prediction of Family Expense Prediction</h1>
+                    <p style="color: white">This website is trying to make a prediction about the family costing of different areas in Dhaka.</p>
+                </div>
+            </div>
+            <div class="row form-container">
+                <div class="col-md-12">
+                    <form method="post" action="{% url 'App_all:predict-view' %}">
+                        {% csrf_token %}
+                        <div class="form-group location-input-container">
+                            <label for="id-selected-location">Apartment Size (In Square)</label>
+                            <input class="form-control" name="selected_location" id="id-selected-location" type="hidden" value=""
+                                placeholder="Selected Location">
+                                {% comment %} Apartment_size	Bed	Bath	Area_code {% endcomment %}
+                            <input class="form-control" name="apatment_size" id="id-apatment-size" type="number" value=""
+                                placeholder="Apartment Size (In Square)">
+                            <label for="id-bed">No of Bed Room</label>
+                            <input class="form-control" name="no_of_bed" id="id-bed" type="number" value=""
+                                placeholder="No of Bed Room">
+                            <label for="id-bed">No of Bath Room</label>
+                            <input class="form-control" name="no_of_bath" id="id-bath" type="number" value=""
+                                    placeholder="No of Bath Room">
+                            <label for="id-location">Location</label>
+                            <input class="form-control" name='location_search' id='id-location-search' type='text' onkeyup="FilterKeyWord();"
+                                placeholder="Search the location">
+                            <table id="id-location-table">
+                                <thead>
+                                    <tr>
+                                        <th scope="">Location</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for location in all_locations %}
+                                        <tr>
+                                            <td data-label="Location" onclick="selectedLocation(`{{ location }}`)">
+                                                {{ location }}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="form-group total-adult-container">
+                            <label for="id-number-of-members">Total Adult Member</label> <br>
+                            <label for="id-member-1"> One
+                                <input class="radio-familymembers" id="id-member-1" name="radio-family-member" type="radio" 
+                                value="1">
+                            </label>
+                            <label for="id-member-2"> Two
+                                <input class="radio-familymembers" id="id-member-2" name="radio-family-member" type="radio" value="2">
+                            </label>
+                            <label for="id-member-3"> Three
+                                <input class="radio-familymembers" id="id-member-3" name="radio-family-member" type="radio" value="3">
+                            </label>
+                            <label for="id-member-4"> Four
+                                <input class="radio-familymembers" id="id-member-4" name="radio-family-member" type="radio" value="4">
+                            </label>
+                            <label for="id-member-5"> Five
+                                <input class="radio-familymembers" id="id-member-5" name="radio-family-member" type="radio" value="5">
+                            </label>
+                            <label for="id-member-6"> Six
+                                <input class="radio-familymembers" id="id-member-6" name="radio-family-member" type="radio" value="6">
+                            </label>
+                            <label for="id-member-7"> Seven
+                                <input class="radio-familymembers" id="id-member-7" name="radio-family-member" type="radio" value="7">
+                            </label>
+                            <label for="id-member-8"> Eight
+                                <input class="radio-familymembers" id="id-member-8" name="radio-family-member" type="radio" value="8">
+                            </label>
+                            <label for="id-member-9"> Nine
+                                <input class="radio-familymembers" id="id-member-9" name="radio-family-member" type="radio" value="9">
+                            </label>
+                            <br>
+                            <select class="form-group" id="id-nuber-of-members" name="number_of_members" 
+                                style="display: none;">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </div>
+                        <br>
+                        <div class="container person-details-container">
+                            <div class="form-group height-input-container">
+                                {% comment %} <input type="text" class="form-control" id="id-height" name="height" 
+                                placeholder="Enter the height of the person"> {% endcomment %}
+                            </div>
+                            <div class="form-group weight-input-container">
+                                {% comment %} <label for="id-weight">Weight</label> {% endcomment %}
+                                {% comment %} <input type="text" class="form-control weight-input" id="id-weight" name="weight" 
+                                placeholder="Enter the weight of the person"> {% endcomment %}
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script id="table-script" type="text/javascript">
+        // Specific column search script
+        function FilterKeyWord() {
+            // Declare variables
+            var input, filter, table, tr, td, i;
+            input = document.getElementById("id-location-search");
+            filter = input.value.toLowerCase();
+            table = document.getElementById("id-location-table");
+            tr = table.getElementsByTagName("tr");
+            table.style.display = 'block';
+
+            // Loop through all table rows, and hide those who don't match the search query
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0];
+                // change index to change your column search
+
+                if (td) {
+                    if (td.innerHTML.toLowerCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+            if (input.value == '') {
+                table.style.display = 'none';
+            }
+        }
+
+        function selectedLocation(loc) {
+            var theLocation = document.getElementById("id-selected-location");
+            theLocation.setAttribute('value', loc);
+            document.getElementById("id-location-search").value = loc;
+            document.getElementById("id-location-table").style.display = 'none';
+        }
+    </script>
+
+    <script>
+        $( document ).ready(function() {
+
+            $(".radio-familymembers").change(function () {
+
+            var value = $(this).val();
+            var heightContainer = $(".height-input-container");
+            var weightContainer = $(".weight-input-container");
+            heightContainer.empty();
+            weightContainer.empty();
+            for(var container = 0; container < value; container++) {
+                person_number = container + 1;
+                heightContainer.append("<label for='id-height-'" + container +">Height of Person-"+ person_number +"</label><input type='text' class='form-control' name='height' id='height-" + container + "' placeholder='Enter the height of the person(cm)'>");
+                weightContainer.append("<label for='id-weight-'" + container + ">Weight of Person-"+ person_number +"</label><input type='text' class='form-control' name='weight' id='weight-" + container + "' placeholder='Enter the weight of the person(kg)'>");
+            }
+
+            $("#id-nuber-of-members option").each(function () {
+
+                $(this).removeAttr("selected");
+
+                if ($(this).val() == value) {
+
+                $(this).attr("selected", "selected");
+                }
+            });
+            });
+
+        });
+    </script>
+
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+
+{% endblock %}
+
+{% block activity_script %}
+    home.classList.remove('active');
+    features.classList.add('active');
+    contact.classList.remove('active');
+{% endblock %}
